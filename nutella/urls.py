@@ -19,5 +19,6 @@ import main.views as main
 
 urlpatterns = [
     path('', main.index),
+    path('mentions/', main.mentions),
     path('admin/', admin.site.urls),
 ]
