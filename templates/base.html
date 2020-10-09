@@ -28,12 +28,12 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
 
-                    <li class="nav-item"><a href="login">
+                    <li class="nav-item">
                         <form id="search_aliments-top" class="d-inline-flex">
                             <input type="text" class="form-control inline-block h-100" placeholder="Recherchez un produit ici">
                             <input type="submit" value="Rechercher" class="btn btn-primary align-middle inline-block h-100">
                         </form>
-                    </a></li>
+                    </li>
                     <li class="nav-item ml-4"><a href="user"><h2><i class="fa fa-user"></i></h2></a></li>
                     {% if not user.is_authenticated %}
                         <li class="nav-item ml-4"><a href="login"><h2><i class="fa fa-carrot"></i></h2></a></li>

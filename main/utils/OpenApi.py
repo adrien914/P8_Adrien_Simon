@@ -1,4 +1,6 @@
 import requests
+from main.models import Category, Aliment, Substitute
+
 
 class OpenApi:
 
@@ -16,7 +18,7 @@ class OpenApi:
         return categories
 
     @staticmethod
-    def get_aliments( category):
+    def get_aliments(category):
         """
         Get a certain number of aliments from a category from the openfoodfacts api
         :param category: the category to retrieve the aliments from
@@ -32,29 +34,23 @@ class OpenApi:
         This function initiates the database with all the data needed
         :return: None
         """
-        print("Récupération des catégories a partir de l'API OpenFoodFacts ...")
         categories = OpenApi().get_categories()
-        print("Insertion des catégories en base de données ...")
         for category in categories:
             name = "'" + category["name"].replace("'", "\\'") + "'"
             url = "'" + category["url"] + "'"
-            if not self.select("category", "name={}".format(name)):
-                self.insert("category", ["name", "url"], [name, url])
-        print("Terminé. Récupération des aliments pour chaque catégorie ...")
-        categories = self.select("category")
-        print("Insertion des aliments dans les catégorie: ...")
+            if not Category.objects.get(name=name):
+                Category.objects.create(name=name, url=url)
+        categories = Category.objects.all()
         for category in categories:
             aliments = OpenApi().get_aliments(category)
             for aliment in aliments:
                 headers = ["product_name", "category", "nutrition_grades", "stores"]
                 aliment["category"] = category[0]
-                data = []
+                data = {}
                 for header in headers:
                     try:
-                        data.append("'" + aliment[header].replace("'", "\\'") + "'")
+                        data[header] = aliment[header]
+                        # data.append("'" + aliment[header].replace("'", "\\'") + "'")
                     except KeyError:
-                        data.append("NULL")
-                    except AttributeError:
-                        data.append(str(aliment[header]))
-                self.insert("aliment", headers, data)
-        clear()
+                        data[header] = None
+                Aliment.objects.create(**data)
