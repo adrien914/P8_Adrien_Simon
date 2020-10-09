@@ -24,7 +24,8 @@ class OpenApi:
         :param category: the category to retrieve the aliments from
         :return: the aliments retrieved from the api
         """
-        request = requests.get(category[2] + ".json")
+        print(str(category.url) + ".json")
+        request = requests.get(category.url + ".json")
         products = request.json()["products"]
         return products
 
@@ -34,18 +35,20 @@ class OpenApi:
         This function initiates the database with all the data needed
         :return: None
         """
+        print(Category.objects.all())
+        print()
         categories = OpenApi().get_categories()
         for category in categories:
-            name = "'" + category["name"].replace("'", "\\'") + "'"
-            url = "'" + category["url"] + "'"
-            if not Category.objects.get(name=name):
+            name = category["name"]
+            url = category["url"]
+            if not Category.objects.filter(name=name):
                 Category.objects.create(name=name, url=url)
         categories = Category.objects.all()
         for category in categories:
             aliments = OpenApi().get_aliments(category)
             for aliment in aliments:
                 headers = ["product_name", "category", "nutrition_grades", "stores"]
-                aliment["category"] = category[0]
+                aliment["category"] = category
                 data = {}
                 for header in headers:
                     try:

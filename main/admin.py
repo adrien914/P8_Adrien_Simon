@@ -1,3 +1,6 @@
 from django.contrib import admin
+from main.models import Aliment, Category, Substitute
 
-# Register your models here.
+admin.site.register(Aliment)
+admin.site.register(Category)
+admin.site.register(Substitute)
