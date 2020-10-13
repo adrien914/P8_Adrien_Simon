@@ -14,6 +14,8 @@ class Aliment(models.Model):
     nutrition_grades = models.CharField(max_length=1, default=None, null=True, blank=True)
     stores = models.CharField(max_length=128, default=None, null=True, blank=True)
 
+    def __str__(self):
+        return self.product_name
 
 class Substitute(models.Model):
     id = models.IntegerField(primary_key=True)

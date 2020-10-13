@@ -29,8 +29,8 @@
                 <ul class="navbar-nav ml-auto my-2 my-lg-0">
 
                     <li class="nav-item">
-                        <form id="search_aliments-top" class="d-inline-flex">
-                            <input type="text" class="form-control inline-block h-100" placeholder="Recherchez un produit ici">
+                        <form id="search_aliments-top" class="d-inline-flex" action="/search_substitute/" method="post">
+                            <input type="text" name="aliment_search" class="form-control inline-block h-100" placeholder="Recherchez un produit ici">
                             <input type="submit" value="Rechercher" class="btn btn-primary align-middle inline-block h-100">
                         </form>
                     </li>

@@ -20,5 +20,6 @@ import main.views as main
 urlpatterns = [
     path('', main.index),
     path('mentions/', main.mentions),
+    path('search_substitute/', main.search_substitutes),
     path('admin/', admin.site.urls),
 ]
