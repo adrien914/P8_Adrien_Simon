@@ -3,7 +3,9 @@
 {% block top_div %}
     {% for substitute in substitutes %}
         <div class="col-3 ml-1 mr-1 bg-info">
+            <a>
             {{ substitute.product_name }}
+                </a>
         </div>
     {% endfor %}
 {% endblock %}
