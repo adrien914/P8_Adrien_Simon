@@ -1,8 +1,9 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 from main.models import Aliment
 from main.utils.OpenApi import OpenApi
 from django.views.decorators.csrf import csrf_exempt
-import json
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -41,3 +42,15 @@ def search_substitutes(request):
     print(aliment)
     print(substitutes)
     return render(request, 'aliments.html', context)
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Account created successfully')
+            return redirect('register')
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/register.html', {'form': form})
