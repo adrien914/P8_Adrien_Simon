@@ -1,11 +1,21 @@
 {% extends 'index.html' %}
 
 {% block top_div %}
+    <script src="https://use.fontawesome.com/ef1bcaa27d.js"></script>
+
+    {% if not aliment %}
+        <h1>Nous n'avons pas pu trouver cet aliment</h1>
+    {% endif %}
+    {% if aliment and not substitutes %}
+        <h1>Nous n'avons pas pu trouver de substitut plus sain à cet aliment</h1>
+    {% endif %}
     {% for substitute in substitutes %}
-        <div class="col-3 ml-1 mr-1 bg-info">
-            <a>
-            {{ substitute.product_name }}
-                </a>
+        <div class="col-3 text-center m-1 d-flex bg-gray border-primary aliment">
+            <div class="text-center col-12" >
+                <img class="image d-block m-auto" src="{{ substitute.image_front_thumb_url }}">
+                <h6 class="d-block text-dark aliment_text">{{ substitute.product_name }}</h6>
+                <a href="/save_substitute/{{ substitute.id }}"><i class="fa fa-floppy-o" aria-hidden="true"></i>Sauvegarder</a>
+            </div>
         </div>
     {% endfor %}
 {% endblock %}

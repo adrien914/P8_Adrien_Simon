@@ -47,13 +47,18 @@ class OpenApi:
         for category in categories:
             aliments = OpenApi().get_aliments(category)
             for aliment in aliments:
-                headers = ["product_name", "category", "nutrition_grades", "stores"]
+                print(aliment)
+                headers = ["product_name", "category", "nutrition_grades", "stores", "image_front_thumb_url"]
                 aliment["category"] = category
                 data = {}
                 for header in headers:
                     try:
                         data[header] = aliment[header]
-                        # data.append("'" + aliment[header].replace("'", "\\'") + "'")
                     except KeyError:
                         data[header] = None
-                Aliment.objects.create(**data)
+                try:
+                    Aliment.objects.create(**data)
+                except:
+                    data["product_name"] += " - " + str(len(Aliment.objects.filter(product_name__contains=data["product_name"])))
+                    print(data["product_name"])
+                    Aliment.objects.create(**data)
