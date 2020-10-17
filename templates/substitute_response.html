@@ -1,0 +1,9 @@
+{% extends 'index.html' %}
+
+{% block top_div %}
+    {% if save_successful %}
+        <h1>Votre substitut a bien été sauvegardé</h1>
+    {% else %}
+        <h1>Il y a eu une erreur a la sauvegarde de votre substitut</h1>
+    {% endif %}
+{% endblock %}

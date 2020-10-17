@@ -1,9 +1,9 @@
-from django.shortcuts import render, HttpResponse, redirect
-from main.models import Aliment
+from django.shortcuts import render, redirect
+from main.models import Aliment, Substitute
 from main.utils.OpenApi import OpenApi
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
+import traceback
 
 # Create your views here.
 def index(request):
@@ -15,7 +15,6 @@ def index(request):
 def mentions(request):
     return render(request, 'mentions.html')
 
-@csrf_exempt
 def search_substitutes(request):
     aliment = request.POST["aliment_search"]
     aliment = Aliment.objects.filter(product_name__contains=aliment)
@@ -43,6 +42,27 @@ def search_substitutes(request):
         }
     return render(request, 'aliments.html', context)
 
+
+def save_substitute(request, substitute_id):
+    context = {}
+    if request.method == 'GET':
+        aliment = Aliment.objects.get(id=substitute_id)
+        try:
+            substitute_data = dict(vars(aliment))
+            try:
+                substitute_data.pop('id')
+                substitute_data.pop('_state')
+            except KeyError:
+                pass
+            print(aliment)
+            substitute_data['aliment'] = aliment
+            substitute_data["user"] = request.user
+            Substitute.objects.create(**substitute_data)
+            context["save_successful"] = True
+        except Exception as e:
+            print(traceback.format_exc())
+            context["save_successful"] = False
+    return render(request, 'substitute_response.html', context)
 
 def register(request):
     if request.method == 'POST':

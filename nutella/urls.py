@@ -21,6 +21,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', main.index),
     path('mentions/', main.mentions),
+    path('save_substitute/<int:substitute_id>/', main.save_substitute),
     path('register/', main.register, name='register'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('password_change/',

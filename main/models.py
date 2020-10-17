@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -15,8 +15,6 @@ class Aliment(models.Model):
     stores = models.CharField(max_length=128, default=None, null=True, blank=True)
     image_front_thumb_url = models.CharField(max_length=255, default=None, null=True, blank=True)
 
-    def __str__(self):
-        return self.product_name
 
 class Substitute(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -24,5 +22,6 @@ class Substitute(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     nutrition_grades = models.CharField(max_length=1, default=None, null=True, blank=True)
     stores = models.CharField(max_length=128, default=None, null=True, blank=True)
-    aliment = models.ForeignKey(Aliment, on_delete=models.CASCADE)
     image_front_thumb_url = models.CharField(max_length=255, default=None, null=True, blank=True)
+    aliment = models.ForeignKey(Aliment, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
