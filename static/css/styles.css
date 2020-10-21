@@ -88,6 +88,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
     margin-left: 95%;
     margin-top: -5%;
     position: absolute;
+    padding-top: 6px;
     z-index: 999;
 }
 
