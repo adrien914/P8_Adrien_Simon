@@ -40,7 +40,7 @@
                     </li>
                     <li class="nav-item ml-4"><a href="{% if user.is_authenticated %}{% url 'password_change' %}{% else %}{% url 'login' %}{% endif %}"><h2><i class="fa fa-user"></i></h2></a></li>
                     {% if user.is_authenticated %}
-                        <li class="nav-item ml-4"><a href="login"><h2><i class="fa fa-carrot"></i></h2></a></li>
+                        <li class="nav-item ml-4"><a href="/saved_substitutes/"><h2><i class="fa fa-carrot"></i></h2></a></li>
                         <li class="nav-item ml-4"><a href="{% url 'logout' %}"><h2><i class="fa fa-sign-out-alt"></i></h2></a></li>
                     {% endif %}
                 </ul>

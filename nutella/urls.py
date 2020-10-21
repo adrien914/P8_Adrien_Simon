@@ -21,7 +21,6 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', main.index),
     path('mentions/', main.mentions),
-    path('save_substitute/<int:substitute_id>/', main.save_substitute),
     path('register/', main.register, name='register'),
     path('accounts/', include('django.contrib.auth.urls')),
     path('password_change/',
@@ -31,6 +30,10 @@ urlpatterns = [
         ),
         name='password_change'
     ),
+    path('aliment_info/<int:aliment_id>/', main.show_aliment_info),
     path('search_substitute/', main.search_substitutes),
+    path('saved_substitutes/', main.show_saved_substitutes),
+    path('save_substitute/<int:substitute_id>/', main.save_substitute),
+    path('delete_substitute/<int:substitute_id>/', main.delete_substitute),
     path('admin/', admin.site.urls),
 ]

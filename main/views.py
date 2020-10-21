@@ -42,10 +42,21 @@ def search_substitutes(request):
         }
     return render(request, 'aliments.html', context)
 
+def show_aliment_info(request, aliment_id):
+    context = {}
+    if request.method == 'GET':
+        context["aliment"] = Aliment.objects.get(id=aliment_id)
+        return render(request, "aliment_info.html", context)
+
+def show_saved_substitutes(request):
+    context = {}
+    if request.user.is_authenticated:
+        context["substitutes"] = Substitute.objects.filter(user=request.user)
+        return render(request, 'saved_substitutes.html', context)
 
 def save_substitute(request, substitute_id):
     context = {}
-    if request.method == 'GET':
+    if request.method == 'GET' and request.user.is_authenticated:
         aliment = Aliment.objects.get(id=substitute_id)
         try:
             substitute_data = dict(vars(aliment))
@@ -54,15 +65,20 @@ def save_substitute(request, substitute_id):
                 substitute_data.pop('_state')
             except KeyError:
                 pass
-            print(aliment)
             substitute_data['aliment'] = aliment
             substitute_data["user"] = request.user
             Substitute.objects.create(**substitute_data)
             context["save_successful"] = True
         except Exception as e:
-            print(traceback.format_exc())
             context["save_successful"] = False
     return render(request, 'substitute_response.html', context)
+
+
+def delete_substitute(request, substitute_id):
+    if request.user.is_authenticated:
+        Substitute.objects.get(id=substitute_id).delete()
+        return redirect(show_saved_substitutes)
+
 
 def register(request):
     if request.method == 'POST':

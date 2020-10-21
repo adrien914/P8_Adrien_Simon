@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+
+{% block top_div %}
+    <script src="https://use.fontawesome.com/ef1bcaa27d.js"></script>
+    <div class="text-left text-white">
+        <h3>{{ aliment.product_name }}</h3>
+        <h3><b>catégorie:</b> {{ aliment.category.name }}</h3>
+        <h3><b></b>{{ aliment.nutrition_grades }}</h3>
+        <h3>{{ aliment.stores }}</h3>
+    </div>
+{% endblock %}

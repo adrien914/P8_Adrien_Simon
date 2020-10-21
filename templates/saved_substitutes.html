@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+
+{% block top_div %}
+    <script src="https://use.fontawesome.com/ef1bcaa27d.js"></script>
+
+    {% if not substitutes %}
+        <h1>Nous n'avons pas pu trouver de substituts sauvegardés dans votre compte</h1>
+        {% else %}
+        {% for substitute in substitutes %}
+            <div class="col-3 text-center m-1 d-flex bg-gray border-primary aliment">
+                <div class="text-center col-12" >
+                    <img class="image d-block m-auto" src="{{ substitute.image_front_thumb_url }}">
+                    <h6 class="d-block text-dark aliment_text">{{ substitute.product_name }}</h6>
+                    <a href="/delete_substitute/{{ substitute.id }}"><i class="far fa-trash"></i> Supprimer</a>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
