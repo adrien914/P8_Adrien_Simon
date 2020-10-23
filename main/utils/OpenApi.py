@@ -48,7 +48,7 @@ class OpenApi:
             aliments = OpenApi().get_aliments(category)
             for aliment in aliments:
                 print(aliment)
-                headers = ["product_name", "category", "nutrition_grades", "stores", "image_front_thumb_url"]
+                headers = ["product_name", "category", "nutrition_grades", "stores", "image_front_thumb_url", "url"]
                 aliment["category"] = category
                 data = {}
                 for header in headers:
