@@ -77,7 +77,7 @@ def save_substitute(request, substitute_id):
 def delete_substitute(request, substitute_id):
     if request.user.is_authenticated:
         Substitute.objects.get(id=substitute_id).delete()
-        return redirect(show_saved_substitutes)
+        return redirect('main:show_saved_substitutes')
 
 
 def register(request):
@@ -86,7 +86,7 @@ def register(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Account created successfully')
-            return redirect('register')
+            return redirect('main:login')
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})

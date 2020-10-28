@@ -11,7 +11,7 @@
                 <div class="text-center col-12" >
                     <img class="image d-block m-auto" src="{{ substitute.image_url }}">
                     <h6 class="d-block text-dark aliment_text">{{ substitute.product_name }}</h6>
-                    <a href="/delete_substitute/{{ substitute.id }}"><i class="fa fa-trash"></i> Supprimer</a>
+                    <a href="{% url 'main:delete_substitute' substitute.id %}"><i class="fa fa-trash"></i> Supprimer</a>
                 </div>
             </div>
         {% endfor %}
