@@ -3,44 +3,45 @@ from main.models import Aliment, Substitute
 from main.utils.OpenApi import OpenApi
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-import traceback
 
-# Create your views here.
+
 def index(request):
-    if len(Aliment.objects.all()) < 10*20:
-        OpenApi().fill_database()
     return render(request, 'index.html',)
 
 
 def mentions(request):
     return render(request, 'mentions.html')
 
+
 def search_substitutes(request):
-    aliment = request.POST["aliment_search"]
-    aliment = Aliment.objects.filter(product_name__contains=aliment)
-    substitutes = []
-    if aliment:
-        aliment = aliment[0]
-        for i in range(0, 5):
-            # get ascii value of A and add the current index to it so we can get the next letters
-            nutrition_grade = chr(ord("a") + i)
-            print(nutrition_grade)
-            temp_substitutes = Aliment.objects.filter(category=aliment.category, nutrition_grades=nutrition_grade)
-            print(temp_substitutes)
-            if temp_substitutes:
-                for substitute in temp_substitutes:
-                    substitutes.append(substitute)
-            if ord(nutrition_grade) >= ord(aliment.nutrition_grades):  # if the nutrigrade is the same as the aliment's, break
-                break
-        context = {
-            'aliment': aliment,
-            'substitutes': substitutes[:9],
-        }
+    if request.method == "POST":
+        aliment = request.POST["aliment_search"]
+        aliment = Aliment.objects.filter(product_name__contains=aliment)
+        substitutes = []
+        if aliment:
+            aliment = aliment[0]
+            for i in range(0, 5):
+                # get ascii value of A and add the current index to it so we can get the next letters
+                nutrition_grade = chr(ord("a") + i)
+                print(nutrition_grade)
+                temp_substitutes = Aliment.objects.filter(category=aliment.category, nutrition_grades=nutrition_grade)
+                print(temp_substitutes)
+                if temp_substitutes:
+                    for substitute in temp_substitutes:
+                        substitutes.append(substitute)
+                if ord(nutrition_grade) >= ord(aliment.nutrition_grades):  # if the nutrigrade is the same as the aliment's, break
+                    break
+            context = {
+                'aliment': aliment,
+                'substitutes': substitutes[:9],
+            }
+        else:
+            context = {
+                'aliment': False,
+            }
+        return render(request, 'aliments.html', context)
     else:
-        context = {
-            'aliment': False,
-        }
-    return render(request, 'aliments.html', context)
+        return redirect("main:index")
 
 def show_aliment_info(request, aliment_id):
     context = {}
