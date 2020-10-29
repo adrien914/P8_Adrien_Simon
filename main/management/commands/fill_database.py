@@ -4,7 +4,7 @@ from main.models import Aliment
 
 
 class Command(BaseCommand):
-    help = 'Closes the specified poll for voting'
+    help = 'Fills the database ( aliments + categories )'
 
     def handle(self, *args, **options):
         if len(Aliment.objects.all()) < 10 * 20:
