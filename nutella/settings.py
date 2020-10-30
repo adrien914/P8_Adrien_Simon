@@ -30,7 +30,7 @@ DEBUG = False
 ALLOWED_HOSTS = [
     '0.0.0.0',
     'localhost',
-    'http://purbeurre-adrien-simon.herokuapp.com/',
+    'purbeurre-adrien-simon.herokuapp.com',
 ]
 
 
