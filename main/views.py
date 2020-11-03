@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from main.models import Aliment, Substitute
-from main.utils.OpenApi import OpenApi
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 
@@ -14,22 +13,26 @@ def mentions(request):
 
 
 def search_substitutes(request):
+    """
+    This view gets an aliment name in a post request and renders a list of its substitutes if it finds some,
+    redirects to the index if its not a post request
+    """
     if request.method == "POST":
-        aliment = request.POST["aliment_search"]
+        aliment = request.POST["aliment_search"]  # The text searched by the user
         aliment = Aliment.objects.filter(product_name__contains=aliment)
         substitutes = []
         if aliment:
-            aliment = aliment[0]
+            aliment = aliment[0]  # If we found at least 1 aliment, put it in the aliment variable
             for i in range(0, 5):
                 # get ascii value of A and add the current index to it so we can get the next letters
                 nutrition_grade = chr(ord("a") + i)
-                print(nutrition_grade)
+                # Get the substitutes of the same category and the nutrition grade we're at in the loop
                 temp_substitutes = Aliment.objects.filter(category=aliment.category, nutrition_grades=nutrition_grade)
-                print(temp_substitutes)
                 if temp_substitutes:
                     for substitute in temp_substitutes:
                         substitutes.append(substitute)
-                if ord(nutrition_grade) >= ord(aliment.nutrition_grades):  # if the nutrigrade is the same as the aliment's, break
+                # if the nutrigrade is the same as the aliment's, break
+                if ord(nutrition_grade) >= ord(aliment.nutrition_grades):
                     break
             context = {
                 'aliment': aliment,
@@ -43,29 +46,49 @@ def search_substitutes(request):
     else:
         return redirect("main:index")
 
+
 def show_aliment_info(request, aliment_id):
+    """
+    Gets an aliment and renders a page containing its infos
+
+    :param aliment_id: The id of the clicked aliment
+    :type aliment_id: int
+    """
     context = {}
     if request.method == 'GET':
         context["aliment"] = Aliment.objects.get(id=aliment_id)
         return render(request, "aliment_info.html", context)
 
+
 def show_saved_substitutes(request):
+    """
+    Gets the user's saved substitutes and renders a list of them
+    """
     context = {}
     if request.user.is_authenticated:
         context["substitutes"] = Substitute.objects.filter(user=request.user)
         return render(request, 'saved_substitutes.html', context)
 
+
 def save_substitute(request, substitute_id):
+    """
+    Saves a substitute in the database.
+
+    :param substitute_id: The id of the aliment we have to save as a substitute
+    :type substitute_id: int
+    """
     context = {}
     if request.method == 'GET' and request.user.is_authenticated:
         aliment = Aliment.objects.get(id=substitute_id)
         try:
-            substitute_data = dict(vars(aliment))
+            substitute_data = dict(vars(aliment))  # Get the aliments info as a dict
             try:
+                # remove the unnecessary values so we can unpack it into substitutes
                 substitute_data.pop('id')
                 substitute_data.pop('_state')
             except KeyError:
                 pass
+            # add some necessary data that aren't in the aliments infos
             substitute_data['aliment'] = aliment
             substitute_data["user"] = request.user
             Substitute.objects.create(**substitute_data)
@@ -76,12 +99,21 @@ def save_substitute(request, substitute_id):
 
 
 def delete_substitute(request, substitute_id):
+    """
+    Deletes a saved substitute
+
+    :param substitute_id: The id of the substitute we have to delete
+    :type substitute_id: int
+    """
     if request.user.is_authenticated:
         Substitute.objects.get(id=substitute_id).delete()
         return redirect('main:show_saved_substitutes')
 
 
 def register(request):
+    """
+    Registers a user with the data we got in the registration form
+    """
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
