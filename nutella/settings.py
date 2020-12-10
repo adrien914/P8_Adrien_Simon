@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import dj_database_url
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,17 +25,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if os.environ.get("environment") == "PROD":
-    SECRET_KEY = os.environ.get("SECRET_KEY")
+if os.getenv("ENVIRONMENT") == "PROD":
+    SECRET_KEY = os.getenv("SECRET_KEY")
 else:
     SECRET_KEY = "fi+3xa=r1f89_1%k=r!6%))k+o3)u34-ps)#32&msd)@gowh^@"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '0.0.0.0',
     'localhost',
     'purbeurre-adrien-simon.herokuapp.com',
+    '51.68.122.183',
 ]
 
 
@@ -90,8 +94,17 @@ WSGI_APPLICATION = 'nutella.wsgi.application'
 DATABASES = {}
 
 
-if os.environ.get('DATABASE_URL'):
-    DATABASES['default'] = dj_database_url.config(default=os.environ['DATABASE_URL'])
+if os.getenv('ENVIRONMENT') == "PROD":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'P10',
+            'USER': 'debian',
+            'PASSWORD': os.getenv('MYSQL_PASSWORD'),
+            'HOST': '51.68.121.152',
+            'PORT': 3306,
+        }
+    }
 else:
     DATABASES = {
         'default': {
