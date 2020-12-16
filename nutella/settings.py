@@ -14,8 +14,20 @@ import dj_database_url
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 load_dotenv()
+
+sentry_sdk.init(
+    dsn="https://f9da6a7ca5344bf393343545cbf897a2@o489760.ingest.sentry.io/5552527",
+    integrations=[DjangoIntegration()],
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,7 +42,7 @@ if os.getenv("ENVIRONMENT") == "PROD":
 else:
     SECRET_KEY = "fi+3xa=r1f89_1%k=r!6%))k+o3)u34-ps)#32&msd)@gowh^@"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '0.0.0.0',

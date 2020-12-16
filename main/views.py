@@ -32,9 +32,11 @@ def search_substitutes(request):
                     for substitute in temp_substitutes:
                         substitutes.append(substitute)
                 # if the nutrigrade is the same as the aliment's, break
-                if nutrition_grade:
+                try:
                     if ord(nutrition_grade) >= ord(aliment.nutrition_grades):
                         break
+                except:
+                    pass
             context = {
                 'aliment': aliment,
                 'substitutes': substitutes[:9],
