@@ -39,10 +39,11 @@ def search_substitutes(request):
                     pass
             if substitutes:
                 pages = Paginator(substitutes, 9)
+                page_object = pages.get_page(1)
             context = {
                 'aliment': aliment,
                 'substitutes': substitutes,
-                'pages': pages,
+                'page_object': page_object,
             }
         else:
             context = {
