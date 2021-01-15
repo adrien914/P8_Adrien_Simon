@@ -29,8 +29,8 @@
     {% endfor %}
     {% if page_object.has_next %}
         <div class="position-absolute" style="right: 0">
-            <a class="btn btn-primary" href="?page={{ page_object.next_page_number }}&aliment_search={{ aliment_search }}">next</a>
-            <a class="btn btn-primary" href="?page={{ page_object.paginator.num_pages }}&aliment_search={{ aliment_search }}">last &raquo;</a>
+            <a class="btn btn-primary" href="?page={{ page_object.next_page_number }}&aliment_search={{ aliment_search }}">Suivant</a>
+            <a class="btn btn-primary" href="?page={{ page_object.paginator.num_pages }}&aliment_search={{ aliment_search }}">Fin &raquo;</a>
         </div>
     {% endif %}
 {% endblock %}
