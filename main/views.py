@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from main.models import Aliment, Substitute
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
-
+from django.core.paginator import Paginator
 
 def index(request):
     return render(request, 'index.html',)
@@ -37,9 +37,12 @@ def search_substitutes(request):
                         break
                 except:
                     pass
+            if substitutes:
+                pages = Paginator(substitutes, 9)
             context = {
                 'aliment': aliment,
-                'substitutes': substitutes[:9],
+                'substitutes': substitutes,
+                'pages': pages,
             }
         else:
             context = {

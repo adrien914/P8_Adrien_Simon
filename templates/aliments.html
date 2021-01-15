@@ -9,7 +9,11 @@
     {% if aliment and not substitutes %}
         <h1>Nous n'avons pas pu trouver de substitut plus sain à cet aliment</h1>
     {% endif %}
-    {% for substitute in substitutes %}
+    {% if pages.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ pages.previous_page_number }}">previous</a>
+        {% endif %}
+    {% for substitute in pages %}
         <div class="col-3 text-center m-1 d-flex bg-gray border-primary aliment">
             <div class="grade_nutritionnel">{{ substitute.nutrition_grades }}</div>
             <div class="text-center col-12" >
@@ -21,4 +25,8 @@
             </div>
         </div>
     {% endfor %}
+    {% if pages.has_next %}
+        <a href="?page={{ pages.next_page_number }}">next</a>
+        <a href="?page={{ pages.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
 {% endblock %}
