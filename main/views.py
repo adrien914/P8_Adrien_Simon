@@ -19,7 +19,10 @@ def search_substitutes(request):
     """
     if request.method == "GET":
         aliment = request.GET["aliment_search"]  # The text searched by the user
-        page = request.GET["page"]
+        try:
+            page = request.GET["page"]
+        except:
+            page = 1
         aliment = Aliment.objects.filter(product_name__contains=aliment)
         substitutes = []
         if aliment:
