@@ -14,7 +14,7 @@
                     <div class="col-lg-8 align-self-baseline">
                         <p class="text-white-75 font-weight-light mb-5">Trouvez un produit de substitution pour ceux que vous consommez tous les jours.</p>
 
-                        <form id="search_aliments" action="{% url 'main:search_substitutes' %}" method="post">
+                        <form id="search_aliments" action="{% url 'main:search_substitutes' %}" method="get">
                             {% csrf_token %}
                             <input type="text" name="aliment_search" class="col-6 ml-auto mr-auto mb-1 form-control inline-block" placeholder="Recherchez un produit ici">
                             <input type="submit" value="Rechercher" class=" btn btn-primary btn-md align-middle inline-block">

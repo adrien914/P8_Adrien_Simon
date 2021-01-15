@@ -17,8 +17,9 @@ def search_substitutes(request):
     This view gets an aliment name in a post request and renders a list of its substitutes if it finds some,
     redirects to the index if its not a post request
     """
-    if request.method == "POST":
-        aliment = request.POST["aliment_search"]  # The text searched by the user
+    if request.method == "GET":
+        aliment = request.GET["aliment_search"]  # The text searched by the user
+        page = request.GET["page"]
         aliment = Aliment.objects.filter(product_name__contains=aliment)
         substitutes = []
         if aliment:
@@ -39,7 +40,7 @@ def search_substitutes(request):
                     pass
             if substitutes:
                 pages = Paginator(substitutes, 6)
-                page_object = pages.get_page(1)
+                page_object = pages.get_page(page)
             context = {
                 'aliment': aliment,
                 'substitutes': substitutes,
