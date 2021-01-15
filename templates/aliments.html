@@ -10,8 +10,8 @@
         <h1>Nous n'avons pas pu trouver de substitut plus sain à cet aliment</h1>
     {% endif %}
     {% if page_object.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_object.previous_page_number }}">previous</a>
+            <a href="?page=1&aliment_search={{ aliment_search }}">&laquo; first</a>
+            <a href="?page={{ page_object.previous_page_number }}&aliment_search={{ aliment_search }}">previous</a>
         {% endif %}
     {% for substitute in page_object %}
         <div class="col-3 text-center m-1 d-flex bg-gray border-primary aliment">
@@ -26,7 +26,7 @@
         </div>
     {% endfor %}
     {% if page_object.has_next %}
-        <a href="?page={{ page_object.next_page_number }}">next</a>
-        <a href="?page={{ page_object.paginator.num_pages }}">last &raquo;</a>
+        <a href="?page={{ page_object.next_page_number }}&aliment_search={{ aliment_search }}">next</a>
+        <a href="?page={{ page_object.paginator.num_pages }}&aliment_search={{ aliment_search }}">last &raquo;</a>
     {% endif %}
 {% endblock %}

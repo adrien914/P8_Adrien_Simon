@@ -18,12 +18,12 @@ def search_substitutes(request):
     redirects to the index if its not a post request
     """
     if request.method == "GET":
-        aliment = request.GET["aliment_search"]  # The text searched by the user
+        aliment_search = request.GET["aliment_search"]  # The text searched by the user
         try:
             page = request.GET["page"]
         except:
             page = 1
-        aliment = Aliment.objects.filter(product_name__contains=aliment)
+        aliment = Aliment.objects.filter(product_name__contains=aliment_search)
         substitutes = []
         if aliment:
             aliment = aliment[0]  # If we found at least 1 aliment, put it in the aliment variable
@@ -44,8 +44,11 @@ def search_substitutes(request):
             if substitutes:
                 pages = Paginator(substitutes, 6)
                 page_object = pages.get_page(page)
+            else:
+                page_object = None
             context = {
                 'aliment': aliment,
+                'aliment_search': aliment_search,
                 'substitutes': substitutes,
                 'page_object': page_object,
             }
