@@ -42,7 +42,7 @@ if os.getenv("ENVIRONMENT") == "PROD":
 else:
     SECRET_KEY = "fi+3xa=r1f89_1%k=r!6%))k+o3)u34-ps)#32&msd)@gowh^@"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     '0.0.0.0',
