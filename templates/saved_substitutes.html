@@ -6,7 +6,13 @@
     {% if not substitutes %}
         <h1>Nous n'avons pas pu trouver de substituts sauvegardés dans votre compte</h1>
         {% else %}
-        {% for substitute in substitutes %}
+        {% if page_object.has_previous %}
+        <div class="position-absolute" style="left: 0">
+            <a class="btn btn-primary" href="?page=1&aliment_search={{ aliment_search }}">&laquo; Début</a>
+            <a class="btn btn-primary" href="?page={{ page_object.previous_page_number }}&aliment_search={{ aliment_search }}">Précédent</a>
+        </div>
+        {% endif %}
+        {% for substitute in page_object %}
             <div class="col-3 text-center m-1 d-flex bg-gray border-primary aliment">
                 <div class="text-center col-12" >
                     <img class="image d-block m-auto" src="{{ substitute.image_url }}">
@@ -15,5 +21,11 @@
                 </div>
             </div>
         {% endfor %}
+        {% if page_object.has_next %}
+        <div class="position-absolute" style="right: 0">
+            <a class="btn btn-primary" href="?page={{ page_object.next_page_number }}&aliment_search={{ aliment_search }}">Suivant</a>
+            <a class="btn btn-primary" href="?page={{ page_object.paginator.num_pages }}&aliment_search={{ aliment_search }}">Fin &raquo;</a>
+        </div>
+        {% endif %}
     {% endif %}
 {% endblock %}

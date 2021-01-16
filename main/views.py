@@ -80,7 +80,14 @@ def show_saved_substitutes(request):
     """
     context = {}
     if request.user.is_authenticated:
+        page = request.GET.get("page", 1)
         context["substitutes"] = Substitute.objects.filter(user=request.user)
+        if context["substitutes"]:
+            pages = Paginator(context["substitutes"], 6)
+            page_object = pages.get_page(page)
+        else:
+            page_object = None
+        context["page_object"] = page_object
         return render(request, 'saved_substitutes.html', context)
 
 
