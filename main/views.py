@@ -4,6 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.core.paginator import Paginator
 
+#TODO Tests sur la pagination, test sur recherche vide
+
 def index(request):
     return render(request, 'index.html',)
 
