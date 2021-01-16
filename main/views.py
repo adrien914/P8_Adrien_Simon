@@ -24,7 +24,7 @@ def search_substitutes(request):
         except:
             page = 1
         if aliment_search:
-            aliment = Aliment.objects.filter(product_name__contains=aliment_search)
+            aliment = Aliment.objects.filter(product_name__icontains=aliment_search)
         else:
             aliment = None
         substitutes = []
