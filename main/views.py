@@ -23,7 +23,10 @@ def search_substitutes(request):
             page = request.GET["page"]
         except:
             page = 1
-        aliment = Aliment.objects.filter(product_name__contains=aliment_search)
+        if aliment_search:
+            aliment = Aliment.objects.filter(product_name__contains=aliment_search)
+        else:
+            aliment = None
         substitutes = []
         if aliment:
             aliment = aliment[0]  # If we found at least 1 aliment, put it in the aliment variable
