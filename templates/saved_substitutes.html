@@ -8,8 +8,8 @@
         {% else %}
         {% if page_object.has_previous %}
         <div class="position-absolute" style="left: 0">
-            <a class="btn btn-primary" href="?page=1&aliment_search={{ aliment_search }}">&laquo; Début</a>
-            <a class="btn btn-primary" href="?page={{ page_object.previous_page_number }}&aliment_search={{ aliment_search }}">Précédent</a>
+            <a class="btn btn-primary" href="?page=1">&laquo; Début</a>
+            <a class="btn btn-primary" href="?page={{ page_object.previous_page_number }}">Précédent</a>
         </div>
         {% endif %}
         {% for substitute in page_object %}
@@ -23,8 +23,8 @@
         {% endfor %}
         {% if page_object.has_next %}
         <div class="position-absolute" style="right: 0">
-            <a class="btn btn-primary" href="?page={{ page_object.next_page_number }}&aliment_search={{ aliment_search }}">Suivant</a>
-            <a class="btn btn-primary" href="?page={{ page_object.paginator.num_pages }}&aliment_search={{ aliment_search }}">Fin &raquo;</a>
+            <a class="btn btn-primary" href="?page={{ page_object.next_page_number }}">Suivant</a>
+            <a class="btn btn-primary" href="?page={{ page_object.paginator.num_pages }}">Fin &raquo;</a>
         </div>
         {% endif %}
     {% endif %}
