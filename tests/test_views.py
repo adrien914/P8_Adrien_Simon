@@ -93,9 +93,9 @@ class TestSearchSubstitute(TestCase):
 
     def test_search_substitute_get_view(self):
         response = self.client.get(reverse("main:search_substitutes"), {"aliment_search": "jambon"})
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
         response = self.client.get(reverse("main:search_substitutes"), args="non")
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 200)
 
 
 class TestPasswordChange(TestCase):

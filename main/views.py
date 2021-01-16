@@ -20,7 +20,7 @@ def search_substitutes(request):
     redirects to the index if its not a post request
     """
     if request.method == "GET":
-        aliment_search = request.GET["aliment_search"]  # The text searched by the user
+        aliment_search = request.GET.get("aliment_search")  # The text searched by the user
         try:
             page = request.GET["page"]
         except:
