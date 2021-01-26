@@ -110,14 +110,14 @@ class TestSearchSubstitute(TestCase):
     def test_search_substitute_pagination_page_1(self):
         response = self.client.get(reverse("main:search_substitutes"), {"aliment_search": "jambon"})
         self.assertEqual(response.status_code, 200)
-        content = response.content()
+        content = response.content
         self.assertIn("Suivant", content)
         self.assertNotIn("Précédent", content)
 
     def test_search_substitute_pagination_page_2(self):
         response = self.client.get(reverse("main:search_substitutes"), {"aliment_search": "jambon", "page": 2})
         self.assertEqual(response.status_code, 200)
-        content = response.content()
+        content = response.content
         self.assertNotIn("Suivant", content)
         self.assertIn("Précédent", content)
 
