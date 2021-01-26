@@ -90,6 +90,16 @@ class TestSearchSubstitute(TestCase):
             image_url="http://image_url.url",
             category=self.category,
         )
+        for i in range(1, 11):
+            Aliment.objects.create(
+                id=9999999 + i,
+                url="http://url.url",
+                product_name="Jambon de jambon " + str(i),
+                nutrition_grades="b",
+                stores="Leclerc",
+                image_url="http://image_url.url",
+                category=self.category,
+            )
 
     def test_search_substitute_get_view(self):
         response = self.client.get(reverse("main:search_substitutes"), {"aliment_search": "jambon"})
@@ -97,6 +107,19 @@ class TestSearchSubstitute(TestCase):
         response = self.client.get(reverse("main:search_substitutes"), args="non")
         self.assertEqual(response.status_code, 200)
 
+    def test_search_substitute_pagination_page_1(self):
+        response = self.client.get(reverse("main:search_substitutes"), {"aliment_search": "jambon"})
+        self.assertEqual(response.status_code, 200)
+        content = response.content()
+        self.assertIn("Suivant", content)
+        self.assertNotIn("Précédent", content)
+
+    def test_search_substitute_pagination_page_2(self):
+        response = self.client.get(reverse("main:search_substitutes"), {"aliment_search": "jambon", "page": 2})
+        self.assertEqual(response.status_code, 200)
+        content = response.content()
+        self.assertNotIn("Suivant", content)
+        self.assertIn("Précédent", content)
 
 class TestPasswordChange(TestCase):
     def setUp(self):
